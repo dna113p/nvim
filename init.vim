@@ -41,6 +41,9 @@ let g:airline_powerline_fonts = 1
 " --- Deoplete
 let g:deoplete#enable_at_startup = 1
 
+" --- Numbers.vim
+let g:numbers_exclude = ['term1', 'term2', 'term3']
+
 
 " }}}
 " Config {{{
@@ -118,7 +121,32 @@ augroup filetype_vim
 	autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 
+
 au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal nonumber | endif
+
 "}}}
 " Functions {{{
+
+"Launch a workspace with terminals
+function! Workspace()
+	:set splitright
+	:let width = winwidth(0)
+	:let splitwidth = float2nr(round(width-width*0.618))
+	:execute splitwidth . 'vsplit'
+	:term
+	:silent file term1
+	:let height = winheight(0)
+	:let splitwidth = float2nr(round(height/3))
+	:execute splitwidth . 'split'
+	:term
+	:silent file term3
+	:wincmd j
+	:execute splitwidth . 'split'
+	:term
+	:silent file term2
+	:wincmd h
+	:stopi
+endfunction
+
 " }}}

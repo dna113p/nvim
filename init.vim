@@ -15,9 +15,9 @@ Plug 'brendonrapp/smyck-vim'
 "AutoComplete and Snippets
 Plug 'Shougo/deoplete.nvim'
 Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
-    Plug 'isRuslan/vim-es6'
-    Plug 'greg-js/vim-react-es6-snippets'
+Plug 'honza/vim-snippets'
+Plug 'isRuslan/vim-es6'
+Plug 'greg-js/vim-react-es6-snippets'
 
 "Document/Project Navigation
 Plug 'ctrlpvim/ctrlp.vim'
@@ -35,6 +35,7 @@ Plug 'bling/vim-airline'
 Plug 'scrooloose/nerdcommenter'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 Plug 'editorconfig/editorconfig-vim'
 
 call plug#end()
@@ -52,7 +53,7 @@ let g:deoplete#enable_at_startup = 1
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-                    
+
 " --- Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_open_list = 2
@@ -81,6 +82,10 @@ set noea
 set tabstop=4
 set shiftwidth=4
 set expandtab
+
+" Persistent undo
+set undofile
+set undodir=~/.vim/.undo/
 
 set number
 set nowrap
@@ -139,9 +144,9 @@ nmap <leader>fef ggVG=
 
 " folding
 augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 
 " terminal auto insert
@@ -153,23 +158,23 @@ au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal
 
 "Launch a workspace with terminals
 function! Workspace()
-    :set splitright
-    :let width = winwidth(0)
-    :let splitwidth = float2nr(round(width-width*0.618))
-    :execute splitwidth . 'vsplit'
-    :term
-    :silent file term1
-    :let height = winheight(0)
-    :let splitwidth = float2nr(round(height/3))
-    :execute splitwidth . 'split'
-    :term
-    :silent file term3
-    :wincmd j
-    :execute splitwidth . 'split'
-    :term
-    :silent file term2
-    :wincmd h
-    :stopi
+  :set splitright
+  :let width = winwidth(0)
+  :let splitwidth = float2nr(round(width-width*0.618))
+  :execute splitwidth . 'vsplit'
+  :term
+  :silent file term1
+  :let height = winheight(0)
+  :let splitwidth = float2nr(round(height/3))
+  :execute splitwidth . 'split'
+  :term
+  :silent file term3
+  :wincmd j
+  :execute splitwidth . 'split'
+  :term
+  :silent file term2
+  :wincmd h
+  :stopi
 endfunction
 
 " }}}

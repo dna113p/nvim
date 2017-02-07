@@ -4,6 +4,7 @@ call plug#begin()
 " --- Filetype ---
 "Javascript
 Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 "Plug 'jelera/vim-javascript-syntax'
 
 " --- Colorscheme ---
@@ -54,6 +55,9 @@ inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
+" --- mxw/vim-jsx
+let g:jsx_ext_required = 0
+
 " --- Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_open_list = 2
@@ -66,6 +70,7 @@ let g:numbers_exclude = ['term1', 'term2', 'term3']
 let g:UltiSnipsExpandTrigger="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<c-n>"
 let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+
 
 " }}}
 " Config {{{
@@ -117,9 +122,8 @@ vnoremap <space> za
 " Repeat last macro with Q
 nmap Q @@
 
-" ---
+
 " --- Leader Keys ---
-" ---
 let mapleader = ","
 let maplocalleader = "\\"
 
@@ -142,10 +146,11 @@ nmap <leader>fef ggVG=
 "}}}
 " Auto Commands {{{
 
-" folding
 augroup filetype_vim
   autocmd!
+" folding
   autocmd FileType vim setlocal foldmethod=marker
+" source this file on save
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 
@@ -155,26 +160,9 @@ au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal
 
 "}}}
 " Functions {{{
-
-"Launch a workspace with terminals
-function! Workspace()
-  :set splitright
-  :let width = winwidth(0)
-  :let splitwidth = float2nr(round(width-width*0.618))
-  :execute splitwidth . 'vsplit'
-  :term
-  :silent file term1
-  :let height = winheight(0)
-  :let splitwidth = float2nr(round(height/3))
-  :execute splitwidth . 'split'
-  :term
-  :silent file term3
-  :wincmd j
-  :execute splitwidth . 'split'
-  :term
-  :silent file term2
-  :wincmd h
-  :stopi
-endfunction
-
 " }}}
+
+
+
+
+" open folds with <Space>

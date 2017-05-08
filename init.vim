@@ -83,9 +83,12 @@ set hidden
 " Dont auto size splits
 set noea
 
+" Hot reload save fix
+set backupcopy=yes
+
 " Visual
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=0
 set expandtab
 
 " Persistent undo
@@ -161,8 +164,6 @@ au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal
 "}}}
 " Functions {{{
 " }}}
-
-
 
 
 " open folds with <Space>

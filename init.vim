@@ -1,82 +1,47 @@
 " Plugins {{{
 call plug#begin()
 
-" --- Filetype ---
-"Javascript
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-"Plug 'jelera/vim-javascript-syntax'
 
-" --- Colorscheme ---
-Plug 'tomasr/molokai'
-Plug 'w0ng/vim-hybrid'
-Plug 'brendonrapp/smyck-vim'
+"Colorschemes
+Plug 'joshdick/onedark.vim'
 
-" --- Functionality ---
-"AutoComplete and Snippets
-Plug 'Shougo/deoplete.nvim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'isRuslan/vim-es6'
-Plug 'greg-js/vim-react-es6-snippets'
+"Syntax
+Plug 'sheerun/vim-polyglot'
 
-"Document/Project Navigation
-Plug 'ctrlpvim/ctrlp.vim'
+"Completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-"Debugging and Syntax Help
-Plug 'benekastah/neomake'
-"Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+"Linting Engine
+Plug 'w0rp/ale'
 
-"Visual Aids
-Plug 'myusuf3/numbers.vim'
-Plug 'bling/vim-airline'
-
-"Coding Assist
-Plug 'scrooloose/nerdcommenter'
-Plug 'godlygeek/tabular'
+"Code assists
+Plug 'junegunn/fzf.vim'
+Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'metakirby5/codi.vim'
+
+"Plug 'godlygeek/tabular'
+"Plug 'editorconfig/editorconfig-vim'
+
 
 call plug#end()
 "}}}
 " Plugin Configs {{{
 
 " --- Airline
-let g:airline_powerline_fonts = 1
-
-" --- CtrlP
-let g:ctrlp_custom_ignore = 'node_modules'
-
-" --- Deoplete
-let g:deoplete#enable_at_startup = 1
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
-" --- mxw/vim-jsx
-let g:jsx_ext_required = 0
-
-" --- Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_open_list = 2
-autocmd! BufWritePost,BufEnter * Neomake
-
-" --- Numbers.vim
-let g:numbers_exclude = ['term1', 'term2', 'term3']
-
-" --- Ultisnips
-let g:UltiSnipsExpandTrigger="<c-k>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-p>"
-
+"let g:airline_powerline_fonts = 1
 
 " }}}
 " Config {{{
 
+set guifont=Consolas
+
+" Colorscheme
 set background=dark
-colorscheme hybrid
+colorscheme onedark
 
 set hidden
 
@@ -125,7 +90,6 @@ vnoremap <space> za
 " Repeat last macro with Q
 nmap Q @@
 
-
 " --- Leader Keys ---
 let mapleader = ","
 let maplocalleader = "\\"
@@ -155,11 +119,21 @@ augroup filetype_vim
   autocmd FileType vim setlocal foldmethod=marker
 " source this file on save
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
+  autocmd BufWritePost $MYGVIMRC source $MYGVIMRC
 augroup END
 
 " terminal auto insert
 au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal nonumber | endif
+
+" hybrid line numbers
+:set number relativenumber
+:augroup numbertoggle
+: autocmd!
+: autocmd BufEnter,FocusGained,InsertLeave  * set relativenumber
+: autocmd BufLeave,FocusLost,InsertEnter    * set norelativenumber
+:augroup END
+
 
 "}}}
 " Functions {{{

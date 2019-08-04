@@ -99,7 +99,7 @@ noremap <leader>bp :bprevious<cr>
 noremap <leader>bn :bnext<cr>
 
 " Edit vimrc with ,v
-noremap <silent> <leader>v :edit $MYVIMRC<cr>
+noremap <silent> <C-,> :edit $MYVIMRC<cr>
 
 " Quickly switch to last buffer
 nnoremap <leader>, :e#<CR>

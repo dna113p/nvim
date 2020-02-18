@@ -1,72 +1,41 @@
+"            __  _               ____                __
+"       ____/ / (_)  ____  ___  / / /___ _____  ____/ /
+"      / __  / / /  / __ \/ _ \/ / / __ `/ __ \/ __  / 
+"     / /_/ / / /  / /_/ /  __/ / / /_/ / / / / /_/ /  
+"     \__,_/_/ /  / .___/\___/_/_/\__,_/_/ /_/\__,_/   
+"         /___/  /_/                                   
+"
 " Plugins {{{
 call plug#begin()
 
-
-"Colorschemes
 Plug 'joshdick/onedark.vim'
 
-"Syntax
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 
-"Completion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-"Linting Engine
-Plug 'w0rp/ale'
-
-"Code assists
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'vim-airline/vim-airline'
+
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'metakirby5/codi.vim'
 
-"Plug 'godlygeek/tabular'
 "Plug 'editorconfig/editorconfig-vim'
-
 
 call plug#end()
 "}}}
-" Plugin Configs {{{
 
-" --- Airline
-"let g:airline_powerline_fonts = 1
-
-" }}}
-" Config {{{
-
-set guifont=Consolas
-
-" Colorscheme
-set background=dark
-colorscheme onedark
-
-set hidden
-
-" Dont auto size splits
-set noea
-
-" Hot reload save fix
-set backupcopy=yes
-
-" Visual
-set tabstop=2
-set shiftwidth=0
-set expandtab
-
-" Persistent undo
-set undofile
-set undodir=~/.vim/.undo/
-
-set number
-set nowrap
-set fillchars=vert:\│,fold:-
-
-
-" }}}
 " Mappings {{{
+
+" --- Leader Keys ---
+let mapleader = ","
+let maplocalleader = "\\"
+
+" Edit vimrc with ,v
+noremap <silent><leader>v :edit $MYVIMRC<cr>
 
 " Easy split window navigation
 tnoremap <C-h> <C-\><C-n><C-w>h
@@ -90,16 +59,9 @@ vnoremap <space> za
 " Repeat last macro with Q
 nmap Q @@
 
-" --- Leader Keys ---
-let mapleader = ","
-let maplocalleader = "\\"
-
 " Easy Buffer nav
 noremap <leader>bp :bprevious<cr>
 noremap <leader>bn :bnext<cr>
-
-" Edit vimrc with ,v
-noremap <silent> <C-,> :edit $MYVIMRC<cr>
 
 " Quickly switch to last buffer
 nnoremap <leader>, :e#<CR>
@@ -110,7 +72,116 @@ noremap <silent><leader>/ :nohls<CR>
 " Format entire file
 nmap <leader>fef ggVG=
 
+
 "}}}
+
+" Config {{{
+
+set termguicolors
+
+" Colorscheme
+set background=dark
+colorscheme onedark
+
+set hidden
+
+set cmdheight=2
+
+set updatetime=300
+
+" Left Gutter
+set signcolumn=yes
+
+" Dont auto size splits
+set noea
+
+" Hot reload save fix
+set backupcopy=yes
+
+" Visual
+set tabstop=2
+set shiftwidth=0
+set expandtab
+
+" Persistent undo
+set undofile
+set undodir=~/.vim/.undo/
+
+set number
+set nowrap
+set fillchars=vert:\│,fold:-
+
+set shell=powershell.exe shellquote=( shellpipe=\| shellxquote=
+set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+set shellredir=\|\ Out-File\ -Encoding\ UTF8
+
+" }}}
+
+" Plugin Configs {{{
+
+
+" --- Airline
+let g:airline_powerline_fonts = 1
+
+
+" --- FZF.vim
+
+nnoremap <C-p> :FZF<cr>
+autocmd FileType fzf :tnoremap <buffer> <C-h> <C-h>
+autocmd FileType fzf :tnoremap <buffer> <C-j> <C-j>
+autocmd FileType fzf :tnoremap <buffer> <C-k> <C-k>
+autocmd FileType fzf :tnoremap <buffer> <C-l> <C-l>
+
+
+" --- Coc.nvim
+
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Tab trigger completion with characters ahead and navigate
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+let g:coc_snippet_next = '<tab>'
+
+inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+
+
+" }}}
+
 " Auto Commands {{{
 
 augroup filetype_vim
@@ -123,8 +194,8 @@ augroup filetype_vim
 augroup END
 
 " terminal auto insert
-au BufEnter * if &buftype == 'terminal' | :startinsert | endif
-au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal nonumber | endif
+"au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+"au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal nonumber | endif
 
 " hybrid line numbers
 :set number relativenumber
@@ -136,8 +207,10 @@ au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal
 
 
 "}}}
+
 " Functions {{{
 " }}}
 
 
-" open folds with <Space>
+
+" Open folds with <Space>

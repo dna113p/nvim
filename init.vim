@@ -9,6 +9,7 @@
 call plug#begin()
 
 Plug 'joshdick/onedark.vim'
+Plug 'rakr/vim-one'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'
@@ -81,8 +82,8 @@ nmap <leader>fef ggVG=
 set termguicolors
 
 " Colorscheme
-set background=dark
-colorscheme onedark
+colorscheme one
+set background=light
 
 set hidden
 
@@ -112,8 +113,8 @@ set number
 set nowrap
 set fillchars=vert:\│,fold:-
 
-set shell=powershell.exe shellquote=( shellpipe=\| shellxquote=
-set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+set shell=powershell.exe shellquote= shellpipe=\| shellxquote=
+set shellcmdflag=\ -NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
 set shellredir=\|\ Out-File\ -Encoding\ UTF8
 
 " }}}
@@ -123,6 +124,8 @@ set shellredir=\|\ Out-File\ -Encoding\ UTF8
 
 " --- Airline
 let g:airline_powerline_fonts = 1
+let g:one_allow_italics = 1
+let g:airline_theme="one"
 
 
 " --- FZF.vim

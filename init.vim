@@ -9,11 +9,14 @@
 call plug#begin()
 
 Plug 'joshdick/onedark.vim'
+Plug 'w0ng/vim-hybrid'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
+
+Plug 'chaoren/vim-wordmotion'
 
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -112,7 +115,7 @@ set number
 set nowrap
 set fillchars=vert:\│,fold:-
 
-set shell=powershell.exe shellquote=( shellpipe=\| shellxquote=
+set shell=powershell.exe shellquote= shellpipe=\| shellxquote=
 set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
 set shellredir=\|\ Out-File\ -Encoding\ UTF8
 

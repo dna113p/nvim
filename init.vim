@@ -91,8 +91,8 @@ set background=dark
 set hidden
 
 set cmdheight=2
-
 set updatetime=300
+set ignorecase
 
 " Left Gutter
 set signcolumn=yes
@@ -116,7 +116,7 @@ set number
 set nowrap
 set fillchars=vert:\│,fold:-
 
-set shell=powershell.exe shellquote= shellpipe=\| shellxquote=
+set shell=pwsh.exe shellquote= shellpipe=\| shellxquote=
 set shellcmdflag=\ -NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
 set shellredir=\|\ Out-File\ -Encoding\ UTF8
 

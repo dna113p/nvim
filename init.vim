@@ -124,6 +124,11 @@ set shellredir=\|\ Out-File\ -Encoding\ UTF8
 
 " Plugin Configs {{{
 
+" --- Commentary
+nmap <C-_> gccj
+imap <C-_> <Esc>gcci
+vmap <C-_> gc
+
 
 " --- Airline
 let g:airline_powerline_fonts = 1
@@ -134,7 +139,6 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 
 " --- FZF.vim
-
 nnoremap <C-p> :FZF<cr>
 autocmd FileType fzf :tnoremap <buffer> <C-h> <C-h>
 autocmd FileType fzf :tnoremap <buffer> <C-j> <C-j>
@@ -143,7 +147,6 @@ autocmd FileType fzf :tnoremap <buffer> <C-l> <C-l>
 
 
 " --- Coc.nvim
-
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 

@@ -30,7 +30,7 @@ Plug 'tpope/vim-fugitive'
 
 "Plug 'editorconfig/editorconfig-vim'
 
-Plug 'brefl/nvim-ipy'
+Plug 'bfredl/nvim-ipy'
 
 call plug#end()
 "}}}

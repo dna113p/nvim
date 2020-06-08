@@ -12,7 +12,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'rakr/vim-one'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
@@ -79,22 +79,23 @@ noremap <silent><leader>/ :nohls<CR>
 " Format entire file
 nmap <leader>fef ggVG=
 
+" Add numbered movements to jumplist
+nnoremap <expr> k (v:count > 1 ? "m'" . v:count : '') . 'k'
+nnoremap <expr> j (v:count > 1 ? "m'" . v:count : '') . 'j'
 
 "}}}
 
 " Config {{{
-
+set hidden
+set cmdheight=2
+set updatetime=300
+set ignorecase
+set shortmess+=c
 set termguicolors
 
 " Colorscheme
 colorscheme onedark
 set background=dark
-
-set hidden
-
-set cmdheight=2
-set updatetime=300
-set ignorecase
 
 " Left Gutter
 set signcolumn=yes
@@ -118,8 +119,8 @@ set number
 set nowrap
 set fillchars=vert:\│,fold:-
 
-set shell=pwsh.exe shellquote= shellpipe=\| shellxquote=
-set shellcmdflag=\ -NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+set shell=pwsh.exe shellquote=\" shellpipe=\| shellxquote=
+set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
 set shellredir=\|\ Out-File\ -Encoding\ UTF8
 
 " }}}
@@ -208,8 +209,8 @@ augroup filetype_vim
 augroup END
 
 " terminal auto insert
-"au BufEnter * if &buftype == 'terminal' | :startinsert | endif
-"au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal nonumber | endif
+au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+au BufEnter * if &buftype == 'terminal' | :setlocal norelativenumber | :setlocal nonumber | endif
 
 " hybrid line numbers
 set number relativenumber

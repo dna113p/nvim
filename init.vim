@@ -12,15 +12,18 @@ Plug 'joshdick/onedark.vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'rakr/vim-one'
 
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 
 Plug 'chaoren/vim-wordmotion'
 
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
@@ -28,9 +31,11 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 
+Plug 'kyazdani42/nvim-web-devicons'
+
 "Plug 'editorconfig/editorconfig-vim'
 
-Plug 'bfredl/nvim-ipy'
+" Plug 'bfredl/nvim-ipy'
 
 call plug#end()
 "}}}
@@ -43,6 +48,12 @@ let maplocalleader = "\\"
 
 " Edit vimrc with ,v
 noremap <silent><leader>v :edit $MYVIMRC<cr>
+
+" Map Ctrl-Backspace to delete the previous word in insert mode.
+inoremap <C-h> <C-w>
+
+" Map Ctrl-] to exit insert and save
+inoremap <C-]> <Esc>:update<cr>
 
 " Easy split window navigation
 tnoremap <C-h> <C-\><C-n><C-w>h
@@ -92,10 +103,13 @@ set updatetime=300
 set ignorecase
 set shortmess+=c
 set termguicolors
+set incsearch
+
 
 " Colorscheme
 colorscheme onedark
 set background=dark
+hi Normal guibg=NONE ctermbg=NONE
 
 " Left Gutter
 set signcolumn=yes
@@ -129,6 +143,46 @@ endif
 
 " Plugin Configs {{{
 
+" --- Telescope
+lua << EOF
+require('telescope').setup{
+defaults = {
+  mappings = {
+    i = {
+      -- map actions.which_key to <C-h> (default: <C-/>)
+      -- actions.which_key shows the mappings for your picker,
+      -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+      ["<C-h>"] = "which_key",
+      ["<C-j>"] = "move_selection_next",
+      ["<C-k>"] = "move_selection_previous",
+      }
+    },
+  vimgrep_arguments = {
+    'rg',
+    '--color=never',
+    '--no-heading',
+    '--with-filename',
+    '--line-number',
+    '--column',
+    '--smart-case',
+    '-u' -- thats the new thing
+    },
+  },
+extensions = {
+  fzy_native = {
+    override_generic_sorter = false,
+    override_file_sorter = true,
+    }
+  }
+}
+require('telescope').load_extension('fzy_native')
+EOF
+nnoremap <c-p>      <cmd>lua require('telescope.builtin').find_files{hidden=true}<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>gs <cmd>lua require('telescope.builtin').grep_string()<cr>
+
 " --- Commentary
 nmap <C-_> gccj
 imap <C-_> <Esc>gcci
@@ -141,14 +195,6 @@ let g:one_allow_italics = 1
 let g:airline_theme="onedark"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
-
-
-" --- FZF.vim
-nnoremap <C-p> :FZF<cr>
-autocmd FileType fzf :tnoremap <buffer> <C-h> <C-h>
-autocmd FileType fzf :tnoremap <buffer> <C-j> <C-j>
-autocmd FileType fzf :tnoremap <buffer> <C-k> <C-k>
-autocmd FileType fzf :tnoremap <buffer> <C-l> <C-l>
 
 
 " --- Coc.nvim
@@ -229,7 +275,6 @@ autocmd FileType css,scss,sass setlocal iskeyword+=-
 
 " Functions {{{
 " }}}
-
 
 
 " Open folds with <Space>

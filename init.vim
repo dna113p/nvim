@@ -19,6 +19,7 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'chaoren/vim-wordmotion'
 
+Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
@@ -32,6 +33,10 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 
 Plug 'kyazdani42/nvim-web-devicons'
+
+Plug 'github/copilot.vim'
+
+Plug 'metakirby5/codi.vim'
 
 "Plug 'editorconfig/editorconfig-vim'
 
@@ -142,6 +147,8 @@ endif
 " }}}
 
 " Plugin Configs {{{
+let g:codi#virtual_text_prefix = "\t\t\t\t\t\t ->  "
+highlight CodiVirtualText guifg=red
 
 " --- Telescope
 lua << EOF
@@ -193,8 +200,6 @@ vmap <C-_> gc
 let g:airline_powerline_fonts = 1
 let g:one_allow_italics = 1
 let g:airline_theme="onedark"
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
 
 
 " --- Coc.nvim
